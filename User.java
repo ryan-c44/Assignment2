@@ -1,7 +1,6 @@
 package assignment2;
 
-import java.util.ArrayList;
-import java.util.Map;
+import java.util.*;
 
 public abstract class User implements Cloneable {
 	
@@ -25,6 +24,8 @@ public abstract class User implements Cloneable {
 		this.userType = userType;
 		this.permission = permission;
 		this.status = status;
+		
+		/* charAt for loop to check digits */
 	}
 	
 
@@ -70,6 +71,9 @@ public abstract class User implements Cloneable {
 
 	public void setPassword(String password) {
 		this.password = password;
+		if(password.length() <= 7) {
+			passwordError();
+		}
 	}
 	
 	public String getFullName() {
@@ -77,7 +81,7 @@ public abstract class User implements Cloneable {
 	}
 	
 	public boolean verifyUsernameAndPassword(String username, String password) {
-		if (this.username == username && this.password == password) {
+		if(this.username == username && this.password == password) {
 			return true;
 		}
 		return false;
@@ -110,6 +114,10 @@ public abstract class User implements Cloneable {
 				+ ", userType=" + userType + ", permission=" + permission + ", status=" + status;
 	}
 	
+	public String passwordError() {
+		return "Password too short";
+	}
+	
 	public User clone() {
 		try {
 			User other = (User) super.clone();
@@ -133,7 +141,7 @@ public abstract class User implements Cloneable {
 	}
 	
 	public boolean verifyLogIn(ArrayList<User> users, String username, String password) {
-		for (User user : users) {
+		for(User user : users) {
 			if (user.verifyUsernameAndPassword(username, password)) {
 				return true;
 			}
@@ -142,23 +150,47 @@ public abstract class User implements Cloneable {
 	}
 	
 	public static ArrayList<User> filterUserByUserType(ArrayList<User> users, UserType userType) {
-		
+		for(User user : users) {
+			if(user.getUserType() == userType) {
+				return users;
+			}
+		}
+		return null;
 	}
 	
 	public static boolean verifyLogInByUsernameAndPassword(ArrayList<User> users, String username, String password) {
-		
+		for(User user : users) {
+			if(user.verifyLogIn(users, username, password)) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public static ArrayList<String> getListOfUserFullName(ArrayList<User> users) {
 		
+		ArrayList<String> userFullNames = new ArrayList<String>();
+		
+		for(User user : users) {
+			userFullNames.add(user.getFullName());
+		}
+		return userFullNames;
 	}
 	
 	public static Map<String, User> getMapOfUserWithUsernameAsKey(ArrayList<User> users) {
-		
+		Map<String, User> map = new HashMap<String, User>();
+		for(User user : users) {
+			map.put(user.getUsername(), user);
+		}
+		return map;
 	}
 	
 	public static Map<String, User> getMapOfUserWithLastNameAsKey(ArrayList<User> users) {
-		
+		Map<String, User> map = new HashMap<String, User>();
+		for(User user : users) {
+			map.put(user.getLastName(), user);
+		}
+		return map;
 	}
 	
 	

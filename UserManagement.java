@@ -27,8 +27,8 @@ public class UserManagement {
 		for(User user : users) {
 			if(user.verifyLogIn(users, username, oldPassword)) {
 				user.setPassword(newPassword);
-				return true;
 			}
+			return true;
 		}
 		return false;
 	}

@@ -51,7 +51,7 @@ public class Customer extends User {
 		ArrayList<Customer> customers = new ArrayList<Customer>();
 		
 		for(User user : users) {
-			if(user.getPermission().name() == "Customer") {
+			if(user.getUserType() == UserType.Customer) {
 				customers.add((Customer) user);
 			}
 		}
@@ -63,7 +63,14 @@ public class Customer extends User {
 	}
 	
 	public static ArrayList<Customer> filterOnlyVIPCustomerList(ArrayList<User> users) {
+		ArrayList<Customer> customers = new ArrayList<Customer>();
 		
+		for(User user : users) {
+			if(user.getUserType() == UserType.VIP) {
+				customers.add((Customer) user);
+			}
+		}
+		return customers;
 	}
 	
 	

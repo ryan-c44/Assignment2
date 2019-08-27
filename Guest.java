@@ -1,5 +1,7 @@
 package assignment2;
 
+import java.util.ArrayList;
+
 public class Guest extends Billing {
 
 	public Guest(String id, String firstName, String lastName, String username, String password, UserType userType,
@@ -32,6 +34,15 @@ public class Guest extends Billing {
 	
 	public static ArrayList<Guest> filterOnlyGuestList(ArrayList<User> users) {
 		
+		ArrayList<Guest> guests = new ArrayList<Guest>();
+		
+		for(User user : users) {
+			if(user.getUserType() == UserType.Guest) {
+				guests.add((Guest) user);
+			}
+			return guests;
+		}
+		return null;
 	}
 	
 }
