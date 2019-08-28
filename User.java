@@ -25,12 +25,22 @@ public abstract class User implements Cloneable {
 		this.permission = permission;
 		this.status = status;
 		
-		/* charAt for loop to check digits */
+		for(int i = 0; i < id.length(); i++) {
+			if(Character.isDigit(id.charAt(i))) {
+				this.id = "Invalid ID";
+			}
+		}
 	}
 	
 
 	protected void setId(String id) {
 		this.id = id;
+		
+		for(int i = 0; i < id.length(); i++) {
+			if(Character.isDigit(id.charAt(i))) {
+				this.id = "Invalid ID";
+			}
+		}
 	}
 
 	public String getFirstName() {
@@ -127,10 +137,10 @@ public abstract class User implements Cloneable {
 		}
 	}
 	
-	/* public int compareTo(User user) {
+/*	public int compareTo(User user) {
 		
-	} */
-	
+	} 
+*/
 	public static User findUserByUsername(ArrayList<User> userList, String username) {
 		for (User user : userList) {
 			if (user.getUsername().contains(username)) {
@@ -152,10 +162,10 @@ public abstract class User implements Cloneable {
 	public static ArrayList<User> filterUserByUserType(ArrayList<User> users, UserType userType) {
 		for(User user : users) {
 			if(user.getUserType() == userType) {
-				return users;
+				users.add(user);
 			}
 		}
-		return null;
+		return users;	
 	}
 	
 	public static boolean verifyLogInByUsernameAndPassword(ArrayList<User> users, String username, String password) {
@@ -192,6 +202,5 @@ public abstract class User implements Cloneable {
 		}
 		return map;
 	}
-	
 	
 }

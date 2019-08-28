@@ -22,7 +22,13 @@ public class Guest extends Billing {
 	protected void setId(String id) {
 		super.setId(id);
 		
-		/* validation */
+		if(!id.startsWith("2") || id.length() != 6 || !id.startsWith("2") && id.length() != 6 ) {
+	    	errorMessage();
+	    }
+	}
+	
+	public String errorMessage() {
+		return "Invalid ID.";
 	}
 	
 	@Override

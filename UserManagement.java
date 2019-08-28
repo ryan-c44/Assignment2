@@ -9,18 +9,18 @@ public class UserManagement {
 	public UserManagement() {
 		
 	}
+
+	public boolean addUser(User user) {
+		return users.add(user);
+	}
 	
 	public boolean verifyLogIn(String username, String password) {
-		for (User user : users) {
-			if (user.verifyUsernameAndPassword(username, password) == true) {
+		for(User user : users) {
+			if(user.verifyLogIn(users, username, password)) {
 				return true;
 			}
 		}
 		return false;
-	}
-
-	public boolean addUser(User user) {
-		return users.add(user);
 	}
 	
 	public boolean changePassword(String username, String oldPassword, String newPassword) {

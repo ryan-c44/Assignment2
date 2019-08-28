@@ -19,11 +19,11 @@ public class Address {
 	}
 	
 	public Address() {
-		this.street_number = "123";
-		this.street_name = "Default St";
-		this.suburb = "DefaultVille";
-		this.city = "Default";
-		this.state = "DF";
+		this.street_number = "";
+		this.street_name = "";
+		this.suburb = "";
+		this.city = "";
+		this.state = "";
 		this.postcode = 0;
 	}
 	
@@ -31,4 +31,54 @@ public class Address {
 		return "Address [street_number=" + street_number + ", street_name=" + street_name + ", suburb=" + suburb
 				+ ", city=" + city + ", state=" + state + ", postcode=" + postcode + "]";
 	}
+
+	protected String getStreet_number() {
+		return street_number;
+	}
+
+	protected void setStreet_number(String street_number) {
+		this.street_number = street_number;
+	}
+
+	protected String getStreet_name() {
+		return street_name;
+	}
+
+	protected void setStreet_name(String street_name) {
+		this.street_name = street_name;
+	}
+
+	protected String getSuburb() {
+		return suburb;
+	}
+
+	protected void setSuburb(String suburb) {
+		this.suburb = suburb;
+	}
+
+	protected String getCity() {
+		return city;
+	}
+
+	protected void setCity(String city) {
+		this.city = city;
+	}
+
+	protected String getState() {
+		return state;
+	}
+
+	protected void setState(String state) {
+		this.state = state;
+	}
+
+	protected int getPostcode() {
+		return postcode;
+	}
+
+	protected void setPostcode(int postcode) {
+		this.postcode = postcode;
+	}
+	
+	
 }

@@ -34,9 +34,8 @@ public class Staff extends User {
 			if(user.getUserType() == UserType.Staff) {
 				staff.add((Staff) user);
 			}
-			return staff;
 		}
-		return null;
+		return staff;
 	}
 	
 	public String toString() {
