@@ -1,6 +1,6 @@
 package assignment2;
 
-//import java.util.ArrayList;
+import java.util.*;
 
 public abstract class Billing extends User {
 	
@@ -25,19 +25,19 @@ public abstract class Billing extends User {
 		this(id, firstName, lastName, username, password, userType, permission, status, new Address(), "default@default.com");
 	}
 
-	protected Address getBillingAddress() {
+	public Address getBillingAddress() {
 		return billingAddress;
 	}
 
-	protected void setBillingAddress(Address billingAddress) {
+	public void setBillingAddress(Address billingAddress) {
 		this.billingAddress = billingAddress;
 	}
 
-	protected String getEmail() {
+	public String getEmail() {
 		return email;
 	}
 
-	protected void setEmail(String email) {
+	public void setEmail(String email) {
 		this.email = email;
 		
 		if(!(this.email.endsWith(".com"))) {
@@ -50,13 +50,17 @@ public abstract class Billing extends User {
 		return (super.toString() + ", Billing Address= " + billingAddress + ", Email= " + email);
 	}
 	
-/*	public static void sortedListByEmail(ArrayList<Billing> list) {
-		
+	public static void sortedListByEmail(ArrayList<Billing> list) {
+		Collections.sort(list, new SortByEmail());
 	}
 	
-	public static ArrayList<Billing> filterOnlyBillingList(ArrayList<User> users) {
+/*	public static ArrayList<Billing> filterOnlyBillingList(ArrayList<User> users) {
 		
+		ArrayList<Billing> billingList = new ArrayList<Billing>();
+		
+		for(User user : users) {
+			if(user.)
+		}
 	}
 */	
-	
 }

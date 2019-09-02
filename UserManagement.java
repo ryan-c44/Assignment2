@@ -1,10 +1,11 @@
 package assignment2;
 
-import java.util.ArrayList;
+import java.util.*;
 
 public class UserManagement {
 
 	private ArrayList<User> users = new ArrayList<User>();
+	private Map<String, User> usersMap = new HashMap<String, User>();
 	
 	public UserManagement() {
 		
@@ -16,7 +17,7 @@ public class UserManagement {
 	
 	public boolean verifyLogIn(String username, String password) {
 		for(User user : users) {
-			if(user.verifyLogIn(users, username, password)) {
+			if(user.verifyUsernameAndPassword(username, password)) {
 				return true;
 			}
 		}
@@ -25,10 +26,10 @@ public class UserManagement {
 	
 	public boolean changePassword(String username, String oldPassword, String newPassword) {
 		for(User user : users) {
-			if(user.verifyLogIn(users, username, oldPassword)) {
+			if(user.verifyUsernameAndPassword(username, oldPassword)) {
 				user.setPassword(newPassword);
+				return true;
 			}
-			return true;
 		}
 		return false;
 	}
@@ -42,4 +43,16 @@ public class UserManagement {
 		return null;
 	}
 	
+	public User findUserByUserName(String username) {
+		for(User user : users) {
+			if(user.getUsername().contains(username)) {
+				return user;
+			}
+		}
+		return null;
+	}
+	
+	public ArrayList<User> getUsers() {
+		return users;
+	}
 }

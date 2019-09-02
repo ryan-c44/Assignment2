@@ -11,21 +11,28 @@ public class Staff extends User {
 		super(id, firstName, lastName, username, password, userType, permission, status);
 		
 		this.position = position;
-		
-		permission = PermissionType.Edit;
-		userType = UserType.Staff;
 	}
 	
+	public Staff(String id, String firstName, String lastName, String username, String password, boolean status, String position) {
+		this(id, firstName, lastName, username, password, UserType.Staff, PermissionType.Edit, status, position);
+	}
+	
+	@Override
 	protected void setId(String id) {
 		super.setId(id);
 		
-		/* Validation */
+		if(!id.startsWith("3") || id.length() != 7 || !id.startsWith("3") && id.length() != 7 ) {
+	    	errorMessage();
+	    }
 	}
 	
+	@Override
 	public void setPermission(PermissionType permission) {
 		super.setPermission(permission);
 		
-		/* Validation */
+		if(!(permission.equals(PermissionType.Edit)) || !(permission.equals(PermissionType.None)) || !(permission.equals(PermissionType.Edit)) && !(permission.equals(PermissionType.None))) {
+			System.out.println("Invalid permission.");
+		}
 	}
 	
 	public ArrayList<Staff> filterOnlyStaffList(ArrayList<User> users) {

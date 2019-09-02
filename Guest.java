@@ -22,20 +22,18 @@ public class Guest extends Billing {
 	protected void setId(String id) {
 		super.setId(id);
 		
-		if(!id.startsWith("2") || id.length() != 6 || !id.startsWith("2") && id.length() != 6 ) {
+		if(!id.startsWith("2") || id.length() != 7 || !id.startsWith("2") && id.length() != 7 ) {
 	    	errorMessage();
 	    }
-	}
-	
-	public String errorMessage() {
-		return "Invalid ID.";
 	}
 	
 	@Override
 	public void setPermission(PermissionType permission) {
 		super.setPermission(permission);
 		
-		/* validation */
+		if(!(permission.equals(PermissionType.View)) || !(permission.equals(PermissionType.None)) || !(permission.equals(PermissionType.View)) && !(permission.equals(PermissionType.None))) {
+			System.out.println("Invalid permission.");
+		}
 	}
 	
 	public static ArrayList<Guest> filterOnlyGuestList(ArrayList<User> users) {

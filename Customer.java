@@ -12,8 +12,8 @@ public class Customer extends Billing {
 		
 		this.customerAddress = customerAddress;
 		
-		if(!id.startsWith("1") || id.length() != 6 || !id.startsWith("1") && id.length() != 6 ) {
-	    	errorMessage();
+		if((!id.startsWith("1")) || id.length() != 6 || !(id.startsWith("1")) && id.length() != 6 ) {
+			id = "Invalid";
 	    }
 	}
 	
@@ -38,7 +38,7 @@ public class Customer extends Billing {
 	public void setPermission(PermissionType permission) {
 		super.setPermission(permission);
 		
-		if(!(permission == PermissionType.View) || !(permission == PermissionType.None)) {
+		if(!(permission.equals(PermissionType.Booking)) || !(permission.equals(PermissionType.None)) || !(permission.equals(PermissionType.Booking)) && !(permission.equals(PermissionType.None))) {
 			System.out.println("Invalid permission.");
 		}
 	}
@@ -61,10 +61,6 @@ public class Customer extends Billing {
 			}
 		}
 		return customers;
-	}
-
-	public String errorMessage() {
-		return "Invalid ID.";
 	}
 	
 	public static ArrayList<Customer> filterOnlyVIPCustomerList(ArrayList<User> users) {

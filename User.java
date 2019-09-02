@@ -2,7 +2,7 @@ package assignment2;
 
 import java.util.*;
 
-public abstract class User implements Cloneable {
+public abstract class User implements Cloneable, Comparable<User> {
 	
 	private String id;
 	private String firstName;
@@ -26,9 +26,13 @@ public abstract class User implements Cloneable {
 		this.status = status;
 		
 		for(int i = 0; i < id.length(); i++) {
-			if(Character.isDigit(id.charAt(i))) {
+			if(!(Character.isDigit(id.charAt(i)))) {
 				this.id = "Invalid ID";
 			}
+		}
+		
+		if(id.length() > 7) {
+			this.id = "Invalid ID";
 		}
 	}
 	
@@ -41,6 +45,10 @@ public abstract class User implements Cloneable {
 				this.id = "Invalid ID";
 			}
 		}
+	}
+	
+	public String errorMessage() {
+		return "Invalid ID.";
 	}
 
 	public String getFirstName() {
@@ -91,28 +99,28 @@ public abstract class User implements Cloneable {
 	}
 	
 	public boolean verifyUsernameAndPassword(String username, String password) {
-		if(this.username == username && this.password == password) {
+		if(this.username.equals(username) && this.password.equals(password)) {
 			return true;
 		}
 		return false;
 	}
 
 	public boolean verifyUsername(String username) {
-		if (this.username == username) {
+		if (this.username.equals(username)) {
 			return true;
 		}
 		return false;
 	}
 	
 	public boolean verifyUserType(UserType userType) {
-		if(this.userType == userType) {
+		if(this.userType.equals(userType)) {
 			return true;
 		}
 		return false;
 	}
 	
 	public boolean verifyPermission(PermissionType permission) {
-		if(this.permission == permission) {
+		if(this.permission.equals(permission)) {
 			return true;
 		}
 		return false;
@@ -137,10 +145,11 @@ public abstract class User implements Cloneable {
 		}
 	}
 	
-/*	public int compareTo(User user) {
-		
+	@Override
+	public int compareTo(User otherUser) {
+		return this.id.compareTo(otherUser.id);
 	} 
-*/
+
 	public static User findUserByUsername(ArrayList<User> userList, String username) {
 		for (User user : userList) {
 			if (user.getUsername().contains(username)) {
@@ -148,15 +157,6 @@ public abstract class User implements Cloneable {
 			}
 		}
 		return null;
-	}
-	
-	public boolean verifyLogIn(ArrayList<User> users, String username, String password) {
-		for(User user : users) {
-			if (user.verifyUsernameAndPassword(username, password)) {
-				return true;
-			}
-		}
-		return false;
 	}
 	
 	public static ArrayList<User> filterUserByUserType(ArrayList<User> users, UserType userType) {
@@ -170,7 +170,7 @@ public abstract class User implements Cloneable {
 	
 	public static boolean verifyLogInByUsernameAndPassword(ArrayList<User> users, String username, String password) {
 		for(User user : users) {
-			if(user.verifyLogIn(users, username, password)) {
+			if(user.verifyUsernameAndPassword(username, password)) {
 				return true;
 			}
 		}

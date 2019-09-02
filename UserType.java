@@ -1,5 +1,5 @@
 package assignment2;
 
 public enum UserType {
-	Customer, VIP, Guest, Staff
+	Customer, VIP, Guest, Staff;
 }
