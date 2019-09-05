@@ -24,16 +24,6 @@ public abstract class User implements Cloneable, Comparable<User> {
 		this.userType = userType;
 		this.permission = permission;
 		this.status = status;
-		
-		for(int i = 0; i < id.length(); i++) {
-			if(!(Character.isDigit(id.charAt(i)))) {
-				this.id = "Invalid ID";
-			}
-		}
-		
-		if(id.length() > 7) {
-			this.id = "Invalid ID";
-		}
 	}
 	
 
@@ -49,6 +39,10 @@ public abstract class User implements Cloneable, Comparable<User> {
 	
 	public String errorMessage() {
 		return "Invalid ID.";
+	}
+	
+	public String getId() {
+		return id;
 	}
 
 	public String getFirstName() {
@@ -87,11 +81,20 @@ public abstract class User implements Cloneable, Comparable<User> {
 		return username;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
-		if(password.length() <= 7) {
-			passwordError();
+	public void setPassword(String password) throws Exception {
+		if(password.length() < 7) {
+			throw new Exception();
+		} else {
+			this.password = password;
 		}
+	}
+	
+	public String getPassword() {
+		return password;
+	}
+	
+	public boolean getStatus() {
+		return status;
 	}
 	
 	public String getFullName() {
@@ -130,10 +133,6 @@ public abstract class User implements Cloneable, Comparable<User> {
 	public String toString() {
 		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", username=" + username
 				+ ", userType=" + userType + ", permission=" + permission + ", status=" + status;
-	}
-	
-	public String passwordError() {
-		return "Password too short";
 	}
 	
 	public User clone() {

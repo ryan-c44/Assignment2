@@ -12,17 +12,14 @@ public class Customer extends Billing {
 		
 		this.customerAddress = customerAddress;
 		
-		if((!id.startsWith("1")) || id.length() != 6 || !(id.startsWith("1")) && id.length() != 6 ) {
-			id = "Invalid";
-	    }
 	}
 	
 	public Customer(String id, String firstName, String lastName, String username, String password, boolean status, Address billingAddress, String email, Address customerAddress) {
 		this(id, firstName, lastName, username, password, UserType.Customer, PermissionType.Booking, status, billingAddress, email, customerAddress);
 	}
 	
-	public Customer(String id, String firstName, String lastName, String username, String password, boolean status, Address customerAddress, String email) {
-		this(id, firstName, lastName, username, password, UserType.VIP, PermissionType.Booking, status, customerAddress, email, new Address());
+	public Customer(String id, String firstName, String lastName, String username, String password, boolean status, String email) {
+		this(id, firstName, lastName, username, password, UserType.VIP, PermissionType.Booking, status, new Address(), email, new Address());
 	}
 	
 	@Override
