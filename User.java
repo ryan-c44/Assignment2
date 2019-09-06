@@ -27,12 +27,12 @@ public abstract class User implements Cloneable, Comparable<User> {
 	}
 	
 
-	protected void setId(String id) {
+	protected void setId(String id) throws Exception {
 		this.id = id;
 		
 		for(int i = 0; i < id.length(); i++) {
 			if(Character.isDigit(id.charAt(i))) {
-				this.id = "Invalid ID";
+				throw new Exception();
 			}
 		}
 	}
@@ -73,7 +73,7 @@ public abstract class User implements Cloneable, Comparable<User> {
 		return permission;
 	}
 
-	public void setPermission(PermissionType permission) {
+	public void setPermission(PermissionType permission) throws Exception {
 		this.permission = permission;
 	}
 

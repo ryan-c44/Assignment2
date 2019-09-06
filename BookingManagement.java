@@ -15,12 +15,8 @@ public class BookingManagement {
 	}
 	
 	public ArrayList<BookingRecord> findBookingRecordByUsername(String username) {
-		for(BookingRecord booking : bookings) {
-			if(booking.getUser().getUsername().equals(username)) {
-				return bookings;
-			}
-		}
-		return null;
+		ArrayList<BookingRecord> bookingRecords = BookingRecord.filterBookingRecordByUsername(bookings, username);
+		return bookingRecords;
 	}
 	
 }

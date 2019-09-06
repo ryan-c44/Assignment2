@@ -19,20 +19,21 @@ public class Guest extends Billing {
 	}
 
 	@Override
-	protected void setId(String id) {
+	protected void setId(String id) throws Exception {
 		super.setId(id);
 		
 		if(!id.startsWith("2") || id.length() != 7 || !id.startsWith("2") && id.length() != 7 ) {
-	    	errorMessage();
+			throw new Exception();
 	    }
 	}
 	
 	@Override
-	public void setPermission(PermissionType permission) {
-		super.setPermission(permission);
+	public void setPermission(PermissionType permission) throws Exception {
 		
 		if(!(permission.equals(PermissionType.View)) || !(permission.equals(PermissionType.None)) || !(permission.equals(PermissionType.View)) && !(permission.equals(PermissionType.None))) {
-			System.out.println("Invalid permission.");
+			throw new Exception();
+		} else {
+			super.setPermission(permission);
 		}
 	}
 	

@@ -18,27 +18,29 @@ public class Staff extends User {
 	}
 	
 	@Override
-	protected void setId(String id) {
-		super.setId(id);
+	protected void setId(String id) throws Exception {
 		
 		if(!id.startsWith("3") || id.length() != 7 || !id.startsWith("3") && id.length() != 7 ) {
-	    	errorMessage();
+	    	throw new Exception();
+	    } else {
+	    	super.setId(id);
 	    }
 	}
 	
 	@Override
-	public void setPermission(PermissionType permission) {
-		super.setPermission(permission);
+	public void setPermission(PermissionType permission) throws Exception {
 		
 		if(!(permission.equals(PermissionType.Edit)) || !(permission.equals(PermissionType.None)) || !(permission.equals(PermissionType.Edit)) && !(permission.equals(PermissionType.None))) {
-			System.out.println("Invalid permission.");
+			throw new Exception();
+		} else {
+			super.setPermission(permission);
 		}
 	}
 	
 	public ArrayList<Staff> filterOnlyStaffList(ArrayList<User> users) {
 		ArrayList<Staff> staff = new ArrayList<Staff>();
 		for(User user : users) {
-			if(user.getUserType() == UserType.Staff) {
+			if(user.getUserType().equals(UserType.Staff)) {
 				staff.add((Staff) user);
 			}
 		}

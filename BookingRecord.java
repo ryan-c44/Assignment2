@@ -37,7 +37,7 @@ public class BookingRecord {
 		ArrayList<BookingRecord> bookingRecords = new ArrayList<BookingRecord>();
 		
 		for(BookingRecord booking : bookingList) {
-			if(booking.user.getUsername().contains(username)) {
+			if(booking.user.getUsername().equals(username)) {
 				bookingRecords.add(booking);
 			}
 		}
@@ -46,6 +46,12 @@ public class BookingRecord {
 	
 	public User getUser() {
 		return user;
+	}
+
+	@Override
+	public String toString() {
+		return "BookingRecord [user=" + user + ", service=" + service + ", bookingDate=" + bookingDate + ", endDate="
+				+ endDate + ", status=" + status + "]";
 	}
 	
 }

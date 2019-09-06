@@ -14,9 +14,9 @@ public class ServicesManagement {
 		return services.add(service);
 	}
 	
-	public Service findServiceByID(String id) {
+	public Service findServiceByKeyWordSearch(String name) {
 		for(Service service : services) {
-			if(service.getId().equals(id)) {
+			if(service.getName().equals(name)) {
 				return service;
 			}
 		}

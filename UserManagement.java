@@ -34,11 +34,11 @@ public class UserManagement {
 		for(User user : users) {
 			if(user.verifyUsernameAndPassword(username, oldPassword)) {
 				user.setPassword(newPassword);
-				return true;
 			}
 		}
-		return false;
+		return true;
 	}
+
 	
 	public String getUserFullNameByUserName(String username) {
 		for(User user : users) {
@@ -51,46 +51,94 @@ public class UserManagement {
 	
 	public User findUserByUserName(String username) {
 		for(User user : users) {
-			if(user.getUsername().contains(username)) {
+			if(user.getUsername().equals(username)) {
 				return user;
 			}
 		}
 		return null;
 	}
 	
+	public String getCustomerEmailsOnly() {
+		ArrayList<Customer> customers = Customer.filterOnlyCustomerList(users);
+		customers.addAll(Customer.filterOnlyVIPCustomerList(users));
+		String emails = "";
+		
+		for(Customer customer : customers) {
+			emails += customer.getFullName() + ": " + customer.getEmail() + "\n";
+		}
+		return emails;
+	}
 	
+	public String getVIPCustomerEmails() {
+		ArrayList<Customer> customers = Customer.filterOnlyVIPCustomerList(users);
+		String emails = "";
+		
+		for(Customer customer : customers) {
+			emails += customer.getFullName() + ": " + customer.getEmail() + "\n";
+		}
+		return emails;
+	}
+	
+	public boolean checkStaff(String username) {
+		for(User user : users) {
+			if(findUserByUserName(username).getUserType().equals(UserType.Staff)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public UserType returnUserType(String username) {
+		for(User user : users) {
+			return findUserByUserName(username).getUserType();
+		}
+		return null;
+	}
 
-	
+	public ArrayList<Customer> sortById() {
+		ArrayList<Customer> customers = Customer.filterOnlyCustomerList(users);
+		customers.addAll(Customer.filterOnlyVIPCustomerList(users));
+		Collections.sort(customers);
+		return customers;
+	}
 	
 	/* Step 1. Write the UserManagement class.
 	2. Write the method that reads all users from a csv file (same format as mentioned in assignment 1's 'csv' format) and stores them into UserManagement's ArrayList.
 	3. Make sure you call that method at some point before displaying the UI menu for the first time. */
 
 	 
-	public String csvString(Customer customer) {
+	public String csvStringCustomer(Customer customer) {
 		String csv = customer.getId() + ", " + customer.getFirstName() + ", " + customer.getLastName() +
-				", " + customer.getUsername() + ", " + customer.getPassword() + ", " + customer.getStatus() + ", " + customer.getEmail();
+				", " + customer.getUsername() + ", " + customer.getPassword() + ", " + customer.getUserType() + ", " + customer.getStatus() + ", " + customer.getEmail();
 		
 		return csv;
 	}
 	
-	public void writeCsv(String filename) {
-		try {
-			FileWriter fw = new FileWriter(filename);
-			BufferedWriter writer = new BufferedWriter(fw);
-			
-			for(User user : users) {
-				writer.write(csvString((Customer) user));
-				writer.newLine();
-			}
-			
-			writer.close();
-		}catch (IOException exception) {
-			exception.printStackTrace();
-		}
+	public String csvStringGuest(Guest guest) {
+		String csv = guest.getId() + ", " + guest.getFirstName() + ", " + guest.getLastName() +
+				", " + guest.getUsername() + ", " + guest.getPassword() + ", " + guest.getStatus();
+		
+		return csv;
 	}
 	
-	public Customer parseCsv(String csvString) {
+	public Customer parseCsvCustomer(String csvString) {
+		
+		String[] parts = csvString.split(", ");
+		String id = parts[0];
+		String firstName = parts[1];
+		String lastName = parts[2];
+		String username = parts[3];
+		String password = parts[4];
+		UserType userType = UserType.valueOf(parts[5]); /* Doesn't work */
+		boolean status = Boolean.parseBoolean(parts[6]);
+		String email = parts[7]; /* Throws outOfBoundIndex */
+		
+		Customer customer = new Customer(id, firstName, lastName, username, password, userType,status, email);
+		return customer;
+		
+	} 
+	
+	public Guest parseCsvGuest(String csvString) {
 		
 		String[] parts = csvString.split(", ");
 		String id = parts[0];
@@ -99,10 +147,9 @@ public class UserManagement {
 		String username = parts[3];
 		String password = parts[4];
 		boolean status = Boolean.parseBoolean(parts[5]);
-		String email = parts[6];
 		
-		Customer customer = new Customer(id, firstName, lastName, username, password, status, email);
-		return customer;
+		Guest guest = new Guest(id, firstName, lastName, username, password, status);
+		return guest;
 		
 	}
 	
@@ -120,8 +167,10 @@ public class UserManagement {
 						reader.close();
 						break;
 					}
-					Customer customer = parseCsv(csvString);
-					users.add(customer);
+					Guest guest = parseCsvGuest(csvString);
+					//Customer customer = parseCsvCustomer(csvString);
+					users.add(guest);
+					//users.add(customer);
 					
 				}
 			}
@@ -129,22 +178,5 @@ public class UserManagement {
 				exception.printStackTrace();
 		}
 	}
-	
-		
-	
-	/* public Address getAddress(String parts) {
-		String[] a = parts.split(", ");
-		
-		String street_number = a[0];
-	    String street_name = a[1];
-		String suburb = a[2];
-		String city = a[3];
-		String state = a[4];
-		int postcode = Integer.parseInt(a[5]);
-		
-		Address address = new Address(street_number, street_name, suburb, city, state, postcode);
-		return address;
-	}
-	*/
 	
 }
