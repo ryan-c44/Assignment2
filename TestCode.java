@@ -3,7 +3,6 @@ package assignment2;
 import java.time.LocalDate;
 import java.util.*;
 import java.io.Console;   
-import java.util.Scanner;
 
 public class TestCode {
 	
@@ -45,10 +44,10 @@ public class TestCode {
 		
 		/*Test all methods */
 		System.out.println("Customer methods: \n");
-		System.out.println("Verify Permission (Customer - Booking): " + customer.verifyPermission(PermissionType.Booking));
-		System.out.println("Verify User Type (Customer or VIP): " +customer.verifyUserType(UserType.VIP));
-		System.out.println("Verify Username and Password: " + customer.verifyUsernameAndPassword("bj214", "bobbyjim"));
-		System.out.println("Verify Username: " + customer.verifyUsername("bj214"));
+		System.out.println("Verify Permission (Customer - Booking): " + (customer.verifyPermission(PermissionType.Booking) ? "PASSED" : "FAILED"));
+		System.out.println("Verify User Type (Customer or VIP): " + (customer.verifyUserType(UserType.VIP) ? "PASSED" : "FAILED"));
+		System.out.println("Verify Username and Password: " + (customer.verifyUsernameAndPassword("bj214", "bobbyjim") ? "PASSED" : "FAILED"));
+		System.out.println("Verify Username: " + (customer.verifyUsername("bj214") ? "PASSED" : "FAILED"));
 		
 		System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------");
 		
@@ -64,18 +63,17 @@ public class TestCode {
 		System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------");
 		
 		System.out.println("User Management Methods: ");
-		System.out.println("Get User Full Name by Username: " + userManagement.getUserFullNameByUserName("bj214"));
-		System.out.println("Chage password: " + userManagement.changePassword("bj214", "bobbyjim", "bobbyjim1"));
-		System.out.println("Verify Login with new pass: " + customer.verifyUsernameAndPassword("bj214", "bobbyjim1"));
+		System.out.println("Get User Full Name by Username: 'bj214' " + userManagement.getUserFullNameByUserName("bj214"));
+		System.out.println("Change password: " + (userManagement.changePassword("bj214", "bobbyjim", "bobbyjim1") ? "PASSED" : "FAILED"));
+		System.out.println("Verify Login with new pass: " + (customer.verifyUsernameAndPassword("bj214", "bobbyjim1") ? "PASSED" : "FAILED"));
 		System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------");
 		
-		Console console = System.console(); 
+		Console console =System.console(); 
 		
 		System.out.print("Username:");
 		username = input.next();
 		System.out.print("Password:");
-		char[] pass = console.readPassword();
-		password = String.valueOf(pass);
+		password = input.next(); /* console.readPassword() throws a nullPointerException in eclipse? */
 		System.out.println();
 		
 		while(!(userManagement.verifyLogIn(username, password))) {
@@ -87,66 +85,81 @@ public class TestCode {
 		}
 		
 		if(userManagement.verifyLogIn(username, password)) {
-			System.out.println("Menu 1: Display User Full Name");
-			System.out.println(userManagement.getUserFullNameByUserName(username));
-			System.out.println("User Type: " + userManagement.returnUserType(username));
-			System.out.println();
-		}
-	
-		System.out.println("Menu 2: Change Password");
-		System.out.print("Enter current password: ");
-		password=input.next();
-		System.out.print("Enter new password: ");
-		newPassword=input.next();
-		System.out.println();
-		
-		if(userManagement.verifyLogIn(username, password)) {
-			userManagement.changePassword(username, password, newPassword);
-		} else {
-			while(true) {
+			
+			System.out.println("Press 1 for Menu 1 \n Press 2 for Menu 2 \n Press 3 for Menu 3 \n Press 4 for Menu 4 \n Press 5 for Menu 5 \n Press 6 for Menu 6 \n Press 7 for Menu 7");
+			System.out.print("Input: ");
+			String choice = input.next();
+			
+			if(choice.equals("1")) {
+				System.out.println("Menu 1: Display User Full Name");
+				System.out.println(userManagement.getUserFullNameByUserName(username));
+				System.out.println("User Type: " + userManagement.returnUserType(username));
+				System.out.println();
+			} else if(choice.equals("2")) {
+				System.out.println("Menu 2: Change Password");
 				System.out.print("Enter current password: ");
 				password=input.next();
 				System.out.print("Enter new password: ");
 				newPassword=input.next();
 				System.out.println();
-			}
-		}
-		
-		userManagement.changePassword(username, password, newPassword);
-		
-		System.out.println("Menu 3: List all Customer Emails");
-		System.out.println(userManagement.getCustomerEmailsOnly());
-		
-		if(userManagement.checkStaff(username)) {
-			System.out.println("Menu 4: Staff Only");
-			System.out.println("Press 'i' to sort customers by ID.");
-			System.out.print("Input: ");
-			String sort = input.next();
-			if(sort.equals("i")) {
-				System.out.println(userManagement.sortById());
-				System.out.println();
+				
+				if(userManagement.verifyLogIn(username, password)) {
+					userManagement.changePassword(username, password, newPassword);
+				} else {
+					while(true) {
+						System.out.print("Enter current password: ");
+						password=input.next();
+						System.out.print("Enter new password: ");
+						newPassword=input.next();
+						System.out.println();
+					}
+				}
+				userManagement.changePassword(username, password, newPassword);
+			} else if(choice.equals("3")) {
+				System.out.println("Menu 3: List all Customer Emails");
+				System.out.println(userManagement.getCustomerEmailsOnly());
+			} else if(choice.equals("4")) {
+				if(userManagement.checkStaff(username)) {
+					System.out.println("Menu 4: Staff Only");
+					System.out.println("Press 'i' to sort customers by ID.");
+					System.out.print("Input: ");
+					String sort = input.next();
+					if(sort.equals("i")) {
+						System.out.println(userManagement.sortById());
+						System.out.println();
+					}
+				} else {
+					System.out.println("Unable to view this menu.");
+				}
+			} else if(choice.equals("5")) {
+				if(userManagement.checkStaff(username)) {
+				System.out.println("Menu 5: Filter VIP Customer Emails");
+				System.out.println("press 'v' to filter VIP customer emails.");
+				System.out.print("Input: ");
+				String next = input.next();
+					if(next.equals("v")) {
+					System.out.println(userManagement.getVIPCustomerEmails());
+					}
+				} else {
+					System.out.println("Unable to view this menu.");
+				}
+			} else if(choice.equals("6")) {
+				System.out.println("Menu 6: Keyword Search for Service Name");
+				System.out.print("Search for service by name: ");
+				String search = input.next();
+				System.out.println(servicesManagement.findServiceByKeyWordSearch(search));
+			} else if(choice.equals("7")) {
+				if(userManagement.checkStaff(username)) {
+					System.out.println("Menu 7: Search Booking Record");
+					System.out.print("Search by username: ");
+					String name = input.next();
+					System.out.print(bookingManagement.findBookingRecordByUsername(name));
+				} else {
+					System.out.println("Unable to view this menu.");
+				}
 			}
 			
-			System.out.println("Menu 5: Filter VIP Customer Emails");
-			System.out.println("press 'v' to filter VIP customer emails.");
-			System.out.print("Input: ");
-			String next = input.next();
-			if(next.equals("v")) {
-				System.out.println(userManagement.getVIPCustomerEmails());
-			}
-			
-			System.out.println("Menu 7: Search Booking Record");
-			System.out.print("Search by name: ");
-			String name = input.next();
-			System.out.print(bookingManagement.findBookingRecordByUsername(name));
-	
-		} else {
-			System.out.println("Menu 6: Keyword Search for Service Name");
-			System.out.print("Search for service by name: ");
-			String search = input.next();
-			System.out.println(servicesManagement.findServiceByKeyWordSearch(search));
 		}
-
 	
 	}
 }

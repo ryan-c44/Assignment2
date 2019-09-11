@@ -11,7 +11,7 @@ import java.util.*;
 public class UserManagement {
 
 	private ArrayList<User> users = new ArrayList<User>();
-	//private Map<String, User> usersMap = new HashMap<String, User>();
+	private Map<String, User> usersMap = new HashMap<String, User>();
 	
 	public UserManagement() {
 		
@@ -129,7 +129,7 @@ public class UserManagement {
 		String lastName = parts[2];
 		String username = parts[3];
 		String password = parts[4];
-		UserType userType = UserType.valueOf(parts[5]); /* Doesn't work */
+		UserType userType = UserType.valueOf(parts[5]); 
 		boolean status = Boolean.parseBoolean(parts[6]);
 		String email = parts[7]; /* Throws outOfBoundIndex */
 		
