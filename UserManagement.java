@@ -95,10 +95,13 @@ public class UserManagement {
 		return null;
 	}
 
-	public ArrayList<Customer> sortById() {
+	public ArrayList<Customer> sortByEmail() {
 		ArrayList<Customer> customers = Customer.filterOnlyCustomerList(users);
 		customers.addAll(Customer.filterOnlyVIPCustomerList(users));
-		Collections.sort(customers);
+		
+		for(Customer customer : customers) {
+			customer.compareTo(customer);
+		}
 		return customers;
 	}
 	
@@ -109,7 +112,8 @@ public class UserManagement {
 	 
 	public String csvStringCustomer(Customer customer) {
 		String csv = customer.getId() + ", " + customer.getFirstName() + ", " + customer.getLastName() +
-				", " + customer.getUsername() + ", " + customer.getPassword() + ", " + customer.getUserType() + ", " + customer.getStatus() + ", " + customer.getEmail();
+				", " + customer.getUsername() + ", " + customer.getPassword() + ", " + customer.getStatus() + ", " + customer.getBillingAddress() + ", " 
+				+ customer.getEmail() + ", " + customer.getCustomerAddress();
 		
 		return csv;
 	}
@@ -122,18 +126,20 @@ public class UserManagement {
 	}
 	
 	public Customer parseCsvCustomer(String csvString) {
+		/* String id, String firstName, String lastName, String username, String password, boolean status, Address billingAddress, String email, Address customerAddress */
+		String[] parts = csvString.split(", "); 
 		
-		String[] parts = csvString.split(", ");
 		String id = parts[0];
 		String firstName = parts[1];
 		String lastName = parts[2];
 		String username = parts[3];
 		String password = parts[4];
-		UserType userType = UserType.valueOf(parts[5]); 
 		boolean status = Boolean.parseBoolean(parts[6]);
-		String email = parts[7]; /* Throws outOfBoundIndex */
+		Address billingAddress = parseAddress(parts[7]);
+		String email = parts[8];
+		Address customerAddress = parseAddress(parts[9]);
 		
-		Customer customer = new Customer(id, firstName, lastName, username, password, userType,status, email);
+		Customer customer = new Customer(id, firstName, lastName, username, password, status, billingAddress, email, customerAddress);
 		return customer;
 		
 	} 
@@ -167,16 +173,30 @@ public class UserManagement {
 						reader.close();
 						break;
 					}
-					Guest guest = parseCsvGuest(csvString);
-					//Customer customer = parseCsvCustomer(csvString);
-					users.add(guest);
-					//users.add(customer);
+					//Guest guest = parseCsvGuest(csvString);
+					Customer customer = parseCsvCustomer(csvString);
+					//users.add(guest);
+					users.add(customer);
 					
 				}
 			}
 		}catch(IOException exception) {
 				exception.printStackTrace();
 		}
+	}
+	
+	public Address parseAddress(String s) {
+		String [] parts = s.split(", ");
+		
+		String street_name = parts[0];
+		String street_number = parts[1];
+		String suburb = parts[2];
+		String city = parts[3];
+		String state = parts[4];
+		int postcode = Integer.parseInt(parts[5]);
+		
+		Address address = new Address(street_name, street_number, suburb, city, state, postcode);
+		return address;
 	}
 	
 }

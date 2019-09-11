@@ -53,8 +53,14 @@ public abstract class Billing extends User {
 		return (super.toString() + ", Billing Address= " + billingAddress + ", Email= " + email) + "\n";
 	}
 	
+	public int compareTo(Billing user) {
+		return this.email.compareTo(user.email);
+	}
+	
 	public static void sortedListByEmail(ArrayList<Billing> list) {
-		Collections.sort(list, new SortByEmail());
+		for(Billing billing : list) {
+			billing.compareTo(billing);
+		}
 	}
 	
 	public static ArrayList<Billing> filterOnlyBillingList(ArrayList<User> users) {

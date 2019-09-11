@@ -48,6 +48,7 @@ public class TestCode {
 		System.out.println("Verify User Type (Customer or VIP): " + (customer.verifyUserType(UserType.VIP) ? "PASSED" : "FAILED"));
 		System.out.println("Verify Username and Password: " + (customer.verifyUsernameAndPassword("bj214", "bobbyjim") ? "PASSED" : "FAILED"));
 		System.out.println("Verify Username: " + (customer.verifyUsername("bj214") ? "PASSED" : "FAILED"));
+		System.out.println(userManagement.sortByEmail());
 		
 		System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------");
 		
@@ -121,11 +122,11 @@ public class TestCode {
 			} else if(choice.equals("4")) {
 				if(userManagement.checkStaff(username)) {
 					System.out.println("Menu 4: Staff Only");
-					System.out.println("Press 'i' to sort customers by ID.");
+					System.out.println("Press 'e' to sort customers by email.");
 					System.out.print("Input: ");
 					String sort = input.next();
-					if(sort.equals("i")) {
-						System.out.println(userManagement.sortById());
+					if(sort.equals("e")) {
+						System.out.println(userManagement.sortByEmail());
 						System.out.println();
 					}
 				} else {
